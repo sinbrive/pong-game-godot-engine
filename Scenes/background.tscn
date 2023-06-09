@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/arts/ScoreBar.png" type="Texture" id=1]
+[ext_resource path="res://Assets/arts/Board.png" type="Texture" id=2]
+[ext_resource path="res://Assets/arts/barre2.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 399.5, 5.5 )
+
+[node name="background" type="ParallaxBackground"]
+
+[node name="Board" type="Sprite" parent="."]
+position = Vector2( 400, 300 )
+scale = Vector2( 1, 1.31319 )
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 800, 600 )
+
+[node name="barre" type="StaticBody2D" parent="."]
+position = Vector2( 170, 24 )
+
+[node name="barreL" type="Sprite" parent="barre"]
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="barreR" type="Sprite" parent="barre"]
+position = Vector2( 460, -1 )
+texture = ExtResource( 1 )
+flip_h = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="barre"]
+position = Vector2( 230.5, 18.5 )
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="contour" type="Sprite" parent="."]
+position = Vector2( 400.5, 322 )
+scale = Vector2( 0.993766, 1.22198 )
+texture = ExtResource( 3 )

@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/fonts/Montreal-Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/fonts/Poco.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=7]
+size = 30
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 30
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 15
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 40
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 10
+font_data = ExtResource( 1 )
+
+[node name="display" type="Node2D"]
+
+[node name="score_computer" type="Label" parent="."]
+margin_left = 230.0
+margin_top = 1.0
+margin_right = 270.0
+margin_bottom = 32.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 7 )
+align = 1
+valign = 1
+
+[node name="score_player" type="Label" parent="."]
+margin_left = 530.0
+margin_right = 570.0
+margin_bottom = 36.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 8 )
+align = 1
+valign = 1
+
+[node name="time" type="Label" parent="."]
+margin_left = 342.0
+margin_right = 458.0
+margin_bottom = 46.0
+custom_colors/font_color = Color( 0.827451, 0.878431, 0.231373, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "00"
+align = 1
+valign = 1
+
+[node name="gameOver" type="Label" parent="."]
+margin_left = 300.0
+margin_top = 130.0
+margin_right = 550.0
+margin_bottom = 200.0
+custom_fonts/font = SubResource( 6 )
+text = "GAME OVER"
+align = 1
+valign = 1
+
+[node name="guide" type="Label" parent="."]
+margin_left = 665.0
+margin_top = 556.0
+margin_right = 763.0
+margin_bottom = 577.0
+custom_colors/font_color = Color( 0.490196, 0.466667, 0.0313726, 1 )
+custom_fonts/font = SubResource( 9 )
