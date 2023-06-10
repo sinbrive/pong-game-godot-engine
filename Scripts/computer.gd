@@ -3,20 +3,22 @@ extends KinematicBody2D
 onready var ball = get_parent().find_node("ball", false, true)
 onready var left_limit = 50+$Computer.texture.get_width()
 
-const SPEED=200
+const SPEED=400
 
 func _ready():
 	position.x = 50
 	
 func _physics_process(delta):
 	
-#	var collision = move_and_collide(Vector2())
-#	if not collision: move_and_slide(Vector2(0,_getDirection()) * SPEED*delta)
-	move_and_collide(Vector2(0,_getDirection()) * SPEED*delta)
+	var velocity = Vector2.ZERO
+	
+	velocity.y = _getDirection()*SPEED
+	
+	move_and_slide(velocity)
 	
 func _getDirection():
-	if abs(ball.position.y-position.y) > 20:
+	if abs(ball.position.y-position.y) > 25:
 		if ball.position.y> position.y: return 1
 		else: return -1
-	return 0
+	else: return 0
 	

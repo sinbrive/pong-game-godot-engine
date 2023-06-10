@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/arts/ScoreBar.png" type="Texture" id=1]
 [ext_resource path="res://Assets/arts/Board.png" type="Texture" id=2]
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 399.5, 5.5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 398.343, 1.68164 )
 
 [node name="background" type="ParallaxBackground"]
 
@@ -40,6 +43,16 @@ __meta__ = {
 }
 
 [node name="contour" type="Sprite" parent="."]
-position = Vector2( 400.5, 322 )
+position = Vector2( 400, 325 )
 scale = Vector2( 0.993766, 1.22198 )
 texture = ExtResource( 3 )
+
+[node name="view_base" type="StaticBody2D" parent="."]
+
+[node name="collide_base" type="CollisionShape2D" parent="view_base"]
+position = Vector2( 395.141, 597.055 )
+scale = Vector2( 0.993766, 1.22198 )
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}

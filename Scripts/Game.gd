@@ -2,12 +2,14 @@ extends Node2D
 
 onready var current=OS.get_system_time_msecs();
 
-var  wait_state = true
-var game_over = false
+enum  {IDLE=1, RUNNING, OVER}
 
-var BALL = preload("../Scenes/ball.tscn")
+var state = IDLE
 
-const GAME_OVER_VALUE=3
+var ball_out_event=false
+var time_out_event=false
+
+const GAME_OVER_VALUE=11
 
 func _ready():
 	
@@ -15,48 +17,64 @@ func _ready():
 	$ball.connect("ballOut", self, "_ball_out")	
 	
 	$display/gameOver.hide()
-	$display/guide.text="space to continue"
+	$display/guide.text=" "
 	
-func _physics_process(delta):
+	$TimerResume.set_one_shot (true)
+	$TimerResume.start()
 	
-	if game_over: 
-		if Input.is_action_pressed("relaunch"):
-			wait_state=false
-			game_over=false
-			$display/gameOver.hide()
-			$display/guide.text=" "
-			_resetAll()
-		else:return
-
-	print(Global.scoreC, Global.scoreP)
+func _process(delta):
+	
 	$display/score_player.text=str(Global.scoreP)
 	$display/score_computer.text=str(Global.scoreC)
 	
-	if Global.scoreP >= GAME_OVER_VALUE or Global.scoreC >= GAME_OVER_VALUE:
-		game_over = true
-		$display/gameOver.show()
-		$display/guide.text=" r to run again"
+	if state==IDLE:
+		$display/timer_label.text=str(int($TimerResume.time_left))
+		if time_out_event:
+			time_out_event=false
+			state=RUNNING
+			$display/timer_label.text=" "
+			$ball._restart(true)  # to do : manage which side to launch 
 	
-	if wait_state:
-		if Input.is_action_pressed("restart_game"):
-			$ball._restart(true)  # to do launch side
-			wait_state=false
-			$display/guide.text=" "
-	else:
-		var timeDict = OS.get_system_time_msecs()-current;
-		$display/time.text = str(timeDict/1000)+str((timeDict%1000/100)%100)
+	elif state==RUNNING:
+		display_time()
+		if ball_out_event:
+			$TimerResume.start()
+			state=IDLE
+			ball_out_event=false
+
+		if Global.scoreP >= GAME_OVER_VALUE or Global.scoreC >= GAME_OVER_VALUE:
+			state=OVER
+			$TimerResume.stop()
+			$display/gameOver.show()
+			$display/guide.text=" R to run again"
+		
+	elif state==OVER:
+		if Input.is_action_pressed("relaunch"):
+			state=RUNNING
+			_resetAll()
+			
+	else:return
+	
 
 func _ball_out(exit_side):
-	wait_state = true
+	ball_out_event=true
 	if exit_side == "player":
 		Global.scoreC += 1
 	else:
 		Global.scoreP += 1
-	$display/guide.text="space to continue"
 
 func _resetAll():
 	Global.scoreP=0
 	Global.scoreC=0
 	$display/gameOver.hide()
+	$display/guide.text=" "
 	current=OS.get_system_time_msecs();
 	$ball._restart(true)
+
+func _on_TimerResume_timeout():
+	time_out_event=true
+
+func display_time():
+	print("tick")
+	var timeDict = OS.get_system_time_msecs()-current;
+	$display/time.text = str(timeDict/1000)+str((timeDict%1000/100)%100)
