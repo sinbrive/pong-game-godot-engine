@@ -9,3 +9,7 @@ Assets used:
 
 <img src="screen-shot.png" width=50% height=50%>
 
+update :
+- sound added
+- timeout for game resuming
+

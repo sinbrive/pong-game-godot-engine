@@ -75,6 +75,5 @@ func _on_TimerResume_timeout():
 	time_out_event=true
 
 func display_time():
-	print("tick")
 	var timeDict = OS.get_system_time_msecs()-current;
 	$display/time.text = str(timeDict/1000)+str((timeDict%1000/100)%100)

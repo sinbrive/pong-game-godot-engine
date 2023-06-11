@@ -27,7 +27,10 @@ func _physics_process(delta):
 #		velocity.y *=-1
 
 	var collision = move_and_collide(velocity*delta)
-	if collision : velocity = velocity.bounce(collision.get_normal())
+	if collision : 
+		velocity = velocity.bounce(collision.get_normal())
+		if collision.collider.name=="player" or collision.collider.name=="computer":
+			$collisionSound.play()
 	
 func _stop(player_side):
 	position = Vector2(get_viewport().get_size().x/2, get_viewport().get_size().y/2)
