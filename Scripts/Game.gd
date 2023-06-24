@@ -6,7 +6,8 @@ enum  {IDLE=1, RUNNING, OVER}
 
 var state = IDLE
 
-var ball_out_event=false
+var side_to_serve="computer"
+
 var time_out_event=false
 
 const GAME_OVER_VALUE=11
@@ -33,14 +34,10 @@ func _process(delta):
 			time_out_event=false
 			state=RUNNING
 			$display/timer_label.text=" "
-			$ball._restart(true)  # to do : manage which side to launch 
+			$ball._restart(side_to_serve)  # to do : manage which side to launch 
 	
 	elif state==RUNNING:
 		display_time()
-		if ball_out_event:
-			$TimerResume.start()
-			state=IDLE
-			ball_out_event=false
 
 		if Global.scoreP >= GAME_OVER_VALUE or Global.scoreC >= GAME_OVER_VALUE:
 			state=OVER
@@ -55,13 +52,15 @@ func _process(delta):
 			
 	else:return
 	
-
 func _ball_out(exit_side):
-	ball_out_event=true
 	if exit_side == "player":
 		Global.scoreC += 1
 	else:
 		Global.scoreP += 1
+	$TimerResume.start()
+	state=IDLE
+	side_to_serve=exit_side
+
 
 func _resetAll():
 	Global.scoreP=0

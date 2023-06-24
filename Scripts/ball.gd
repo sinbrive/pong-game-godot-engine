@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-signal ballOut
+signal ballOut(side)
 var  speed=500
 var velocity = Vector2.ZERO
 
@@ -16,10 +16,10 @@ func _ready():
 func _physics_process(delta):
 
 	if position.x < computer.get("left_limit"): 
-		_stop(false)
+		_stop("computer")
 		return
 	if position.x > get_viewport().get_size().x-player.get("right_limit"):
-		_stop(true)
+		_stop("player")
 		return
 
 # replaced by collide node  	
@@ -32,20 +32,17 @@ func _physics_process(delta):
 		if collision.collider.name=="player" or collision.collider.name=="computer":
 			$collisionSound.play()
 	
-func _stop(player_side):
+func _stop(exit_side):
 	position = Vector2(get_viewport().get_size().x/2, get_viewport().get_size().y/2)
 	velocity=Vector2(0, 0)
-	if player_side: emit_signal("ballOut", "player")
-	else: emit_signal("ballOut", "computer")
+	emit_signal("ballOut", exit_side)
 	
 	
-func _restart(side): 
-	var x = player.position.x
-	var y = player.position.y+rand_range(150,300)
-	var ang = self.get_angle_to(Vector2(x, y))
+func _restart(side2serve): 
+	# losing player gets to serve the ball
+	var choices=[-PI/4, -PI/6, PI/4, PI/6]
+	var ang = choices[randi() % choices.size() -1]
+	if side2serve=="player":
+		ang= ang+PI
 	velocity=Vector2(speed, 0).rotated(ang)
-	# TO DO 
-#	var diff=rand_range(0.0,0.5)
-#	if side: velocity=Vector2(speed, 0).rotated(diff)
-#	else: velocity=Vector2(speed, 0).rotated(diff)
 

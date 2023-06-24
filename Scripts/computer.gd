@@ -3,7 +3,7 @@ extends KinematicBody2D
 onready var ball = get_parent().find_node("ball", false, true)
 onready var left_limit = 50+$Computer.texture.get_width()
 
-const SPEED=400
+const SPEED=300
 
 func _ready():
 	position.x = 50
