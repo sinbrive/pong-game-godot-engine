@@ -10,6 +10,10 @@ Assets used:
 <img src="screen-shot.png" width=50% height=50%>
 
 update :
+V0.1
 - sound added
 - timeout for game resuming
+
+V0.2
+- losing player gets to serve the ball
 
